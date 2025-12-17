@@ -7,6 +7,9 @@ import csv
 import time
 from argparse import ArgumentParser
 
+import tracemalloc
+from sklearn.metrics import adjusted_rand_score
+
 from EdgeSamplingMST_PySpark import compare_on_one_dataset, mst_to_k_clusters
 
 
@@ -55,12 +58,19 @@ def main():
         n = int(X.shape[0])
 
         t0 = time.perf_counter()
+        tracemalloc.start()
         mst, stats, ari = compare_on_one_dataset(
             X,
             y_true=y_true,
             epsilon=args.epsilon,
             seed=args.seed,
         )
+        current_mem, peak_mem = tracemalloc.get_traced_memory()
+        tracemalloc.stop()
+        space_usage_mb = {
+            "current_mb": current_mem / (1024 * 1024),
+            "peak_mb": peak_mem / (1024 * 1024),
+        }
         t1 = time.perf_counter()
 
         # Save MST
@@ -94,6 +104,7 @@ def main():
                 "time_sec_wall": (t1 - t0),                 # end-to-end wrapper time
                 "mst_edges": len(mst),
                 "ari": ari,
+                "space_usage_mb": space_usage_mb,
             },
         )
 

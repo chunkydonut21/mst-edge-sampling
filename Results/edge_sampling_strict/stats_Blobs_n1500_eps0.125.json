@@ -31,8 +31,12 @@
     2998,
     2995
   ],
-  "time_sec_algorithm": 18.66513962499448,
-  "time_sec_wall": 19.999070457997732,
+  "time_sec_algorithm": 40.054268542997306,
+  "time_sec_wall": 44.36425549100022,
   "mst_edges": 1499,
-  "ari": 1.0
+  "ari": 1.0,
+  "space_usage_mb": {
+    "current_mb": 0.4081449508666992,
+    "peak_mb": 241.91144943237305
+  }
 }
