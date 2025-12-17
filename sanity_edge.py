@@ -105,6 +105,10 @@ def main():
             plotter.reset_round()
             plotter.plot_mst_2d(list(mst), intermediate=False, plot_cluster=False)
 
+            if y_true is not None:
+                k = len(set(y_true))
+                plotter.plot_mst_2d(list(mst), intermediate=False, plot_cluster=True, num_clusters=k)
+
         print(
             f"[{name}] MST edges={len(mst)} expected={n-1} "
             f"rounds={stats.rounds} time={stats.total_time_sec:.2f}s ARI={ari}"
