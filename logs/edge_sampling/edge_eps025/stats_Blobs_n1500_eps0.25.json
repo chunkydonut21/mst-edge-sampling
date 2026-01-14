@@ -1,0 +1,30 @@
+{
+  "dataset": "Blobs",
+  "n": 1500,
+  "epsilon": 0.25,
+  "rounds": 3,
+  "y_threshold": 9335,
+  "per_round_m": [
+    1124250,
+    181379,
+    29977
+  ],
+  "per_round_x": [
+    121,
+    20,
+    4
+  ],
+  "per_round_max_bucket": [
+    9318,
+    9175,
+    7534
+  ],
+  "time_sec_algorithm": 6.819603208015906,
+  "time_sec_wall": 10.16843754198635,
+  "mst_edges": 1499,
+  "ari": 1.0,
+  "space_usage_mb": {
+    "current_mb": 0.3803539276123047,
+    "peak_mb": 184.3890256881714
+  }
+}

@@ -1,0 +1,149 @@
+(base) shivammaheshwari@Shivams-MacBook-Air MSTforDenseGraphs % python -u PysparkMSTfordensegraphsfast.py --machines 4 --epsilon 0.5 2>&1 | tee Results/vertex_eps05.log  
+Start generating MST
+Starting time: 2025-12-18 12:33:25.591356
+Start creating Distance Matrix...
+Size dataset:  1500
+Created distance matrix in:  0:00:00.202254
+Start creating MST...
+C 0.9051287896680362
+25/12/18 12:33:26 WARN Utils: Your hostname, Shivams-MacBook-Air.local resolves to a loopback address: 127.0.0.1; using 192.168.0.218 instead (on interface en0)
+25/12/18 12:33:26 WARN Utils: Set SPARK_LOCAL_IP if you need to bind to another address
+Setting default log level to "WARN".
+To adjust logging level use sc.setLogLevel(newLevel). For SparkR, use setLogLevel(newLevel).
+25/12/18 12:33:27 WARN NativeCodeLoader: Unable to load native-hadoop library for your platform... using builtin-java classes where applicable
+k:  5
+25/12/18 12:33:42 WARN GarbageCollectionMetrics: To enable non-built-in garbage collector(s) List(G1 Concurrent GC), users should configure it(them) to spark.eventLog.gcMetrics.youngGenerationGarbageCollectors or spark.eventLog.gcMetrics.oldGenerationGarbageCollectors
+Total edges removed in this iteration 1119836                                   
+New total of edges:  4414
+#####
+
+Total runs:  1 
+
+#####
+Found MST in:  0:00:24.948761
+Start creating plot of MST...
+Created plot of MST in:  0:00:00.704512
+Start creating Distance Matrix...
+Size dataset:  1500
+Created distance matrix in:  0:00:00.198619
+Start creating MST...
+C 0.9051287896680362
+k:  5
+Total edges removed in this iteration 1119853                                   
+New total of edges:  4397
+#####
+
+Total runs:  1 
+
+#####
+Found MST in:  0:00:24.735696
+Start creating plot of MST...
+Created plot of MST in:  0:00:00.340290
+Start creating Distance Matrix...
+Size dataset:  1500
+Created distance matrix in:  0:00:00.225874
+Start creating MST...
+C 0.9051287896680362
+k:  5
+Total edges removed in this iteration 1119779                                   
+New total of edges:  4471
+#####
+
+Total runs:  1 
+
+#####
+Found MST in:  0:00:29.619817
+Start creating plot of MST...
+Created plot of MST in:  0:00:00.375459
+Start creating Distance Matrix...
+Size dataset:  1500
+Created distance matrix in:  0:00:00.230180
+Start creating MST...
+C 0.9051287896680362
+k:  5
+Total edges removed in this iteration 1119798                                   
+New total of edges:  4452
+#####
+
+Total runs:  1 
+
+#####
+Found MST in:  0:00:24.004825
+Start creating plot of MST...
+Created plot of MST in:  0:00:00.374339
+Start creating Distance Matrix...
+Size dataset:  1500
+Created distance matrix in:  0:00:00.236925
+Start creating MST...
+C 0.9051287896680362
+k:  5
+Total edges removed in this iteration 1119786                                   
+New total of edges:  4464
+#####
+
+Total runs:  1 
+
+#####
+Found MST in:  0:01:12.023559
+Start creating plot of MST...
+Created plot of MST in:  0:00:00.395188
+Start creating Distance Matrix...
+Size dataset:  1500
+Created distance matrix in:  0:00:00.251031
+Start creating MST...
+C 0.9051287896680362
+k:  5
+Total edges removed in this iteration 1119652                                   
+New total of edges:  4598
+#####
+
+Total runs:  1 
+
+#####
+Found MST in:  0:00:30.608578
+Start creating plot of MST...
+Created plot of MST in:  0:00:00.398333
+Start creating Distance Matrix...
+Size dataset:  1500
+Created distance matrix in:  0:00:03.274040
+Start creating MST...
+C 0.9051287896680362
+k:  5
+Total edges removed in this iteration 1119638                                   
+New total of edges:  4612
+#####
+
+Total runs:  1 
+
+#####
+Found MST in:  0:00:26.312227
+Start creating plot of MST...
+Created plot of MST in:  0:00:00.671714
+Start creating Distance Matrix...
+Size dataset:  1500
+Created distance matrix in:  0:00:03.320650
+Start creating MST...
+C 0.9051287896680362
+k:  5
+Total edges removed in this iteration 1119737                                   
+New total of edges:  4513
+#####
+
+Total runs:  1 
+
+#####
+Found MST in:  0:00:31.319407
+Start creating plot of MST...
+Created plot of MST in:  0:00:00.971278
+Read dataset:  datasets/CA-AstroPh.txt
+Traceback (most recent call last):
+  File "/Users/shivammaheshwari/Documents/Code/MSTforDenseGraphs/PysparkMSTfordensegraphsfast.py", line 430, in <module>
+    main()
+  File "/Users/shivammaheshwari/Documents/Code/MSTforDenseGraphs/PysparkMSTfordensegraphsfast.py", line 388, in main
+    V, size, E = data_reader.read_data_set_from_txtfile(loc)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/shivammaheshwari/Documents/Code/MSTforDenseGraphs/DataReader.py", line 51, in read_data_set_from_txtfile
+    with open(file_location) as file:
+         ^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: 'datasets/CA-AstroPh.txt'
+(base) shivammaheshwari@Shivams-MacBook-Air MSTforDenseGraphs % 

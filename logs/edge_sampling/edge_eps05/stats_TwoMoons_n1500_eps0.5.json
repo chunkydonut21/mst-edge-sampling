@@ -1,0 +1,24 @@
+{
+  "dataset": "TwoMoons",
+  "n": 1500,
+  "epsilon": 0.5,
+  "rounds": 1,
+  "y_threshold": 58095,
+  "per_round_m": [
+    1124250
+  ],
+  "per_round_x": [
+    20
+  ],
+  "per_round_max_bucket": [
+    56220
+  ],
+  "time_sec_algorithm": 3.0028346669860184,
+  "time_sec_wall": 6.333684332988923,
+  "mst_edges": 1499,
+  "ari": 1.0,
+  "space_usage_mb": {
+    "current_mb": 0.3694925308227539,
+    "peak_mb": 158.99076557159424
+  }
+}

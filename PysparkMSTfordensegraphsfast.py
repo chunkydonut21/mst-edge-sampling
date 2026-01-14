@@ -342,7 +342,7 @@ def main():
     num_clusters = [2, 2, 3, 3, 3, 2, 2, 2]
     cnt = 0
     time = []
-    file_location = 'Results/test/'
+    file_location = 'Results/vertex_eps/'
     plotter = Plotter(None, None, file_location)
     data_reader = DataReader()
     for dataset in datasets:

@@ -1,0 +1,24 @@
+{
+  "dataset": "Aniso",
+  "n": 1500,
+  "epsilon": 0.5,
+  "rounds": 1,
+  "y_threshold": 58095,
+  "per_round_m": [
+    1124250
+  ],
+  "per_round_x": [
+    20
+  ],
+  "per_round_max_bucket": [
+    56220
+  ],
+  "time_sec_algorithm": 3.2534062920021825,
+  "time_sec_wall": 6.409361750003882,
+  "mst_edges": 1499,
+  "ari": -8.888900740756543e-07,
+  "space_usage_mb": {
+    "current_mb": 0.3691740036010742,
+    "peak_mb": 158.9845848083496
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "problem": "maximum_coverage",
+  "algo": "greedy",
+  "dataset": "TwoMoons",
+  "n_points": 1500,
+  "m_sets": 200,
+  "k": 20,
+  "radius": 0.7,
+  "epsilon": 0.25,
+  "rounds": 7,
+  "f_value": 1500,
+  "chosen_count": 6,
+  "time_sec_algorithm": 1.8671627910225652,
+  "time_sec_wall": 1.8761742089991458,
+  "space_usage_mb": {
+    "current_mb": 0.6572332382202148,
+    "peak_mb": 0.7901144027709961
+  },
+  "opt_value": null,
+  "ratio_to_opt": null
+}

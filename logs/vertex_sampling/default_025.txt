@@ -1,0 +1,192 @@
+(base) shivammaheshwari@Shivams-MacBook-Air MSTforDenseGraphs % python -u PysparkMSTfordensegraphsfast.py --machines 4 --epsilon 0.25 2>&1 | tee Results/vertex_eps025.log 
+Start generating MST
+Starting time: 2025-12-18 12:25:51.187504
+Start creating Distance Matrix...
+Size dataset:  1500
+Created distance matrix in:  0:00:00.197627
+Start creating MST...
+C 0.9051287896680362
+25/12/18 12:25:52 WARN Utils: Your hostname, Shivams-MacBook-Air.local resolves to a loopback address: 127.0.0.1; using 192.168.0.218 instead (on interface en0)
+25/12/18 12:25:52 WARN Utils: Set SPARK_LOCAL_IP if you need to bind to another address
+Setting default log level to "WARN".
+To adjust logging level use sc.setLogLevel(newLevel). For SparkR, use setLogLevel(newLevel).
+25/12/18 12:25:52 WARN NativeCodeLoader: Unable to load native-hadoop library for your platform... using builtin-java classes where applicable
+k:  11
+25/12/18 12:26:05 WARN GarbageCollectionMetrics: To enable non-built-in garbage collector(s) List(G1 Concurrent GC), users should configure it(them) to spark.eventLog.gcMetrics.youngGenerationGarbageCollectors or spark.eventLog.gcMetrics.oldGenerationGarbageCollectors
+Total edges removed in this iteration 1114278                                   
+New total of edges:  9972
+k:  2
+Warning: parition cannot have a full MST! Missing edges to create full MST./ 64]
+Warning: parition cannot have a full MST! Missing edges to create full MST./ 64]
+Warning: parition cannot have a full MST! Missing edges to create full MST.
+Total edges removed in this iteration 8169                                      
+New total of edges:  1803
+#####
+
+Total runs:  2 
+
+#####
+Found MST in:  0:00:29.191230
+Start creating plot of MST...
+Created plot of MST in:  0:00:00.444745
+Start creating Distance Matrix...
+Size dataset:  1500
+Created distance matrix in:  0:00:00.197895
+Start creating MST...
+C 0.9051287896680362
+k:  11
+Total edges removed in this iteration 1114129                                   
+New total of edges:  10121
+k:  2
+Warning: parition cannot have a full MST! Missing edges to create full MST./ 64]
+Warning: parition cannot have a full MST! Missing edges to create full MST.
+Warning: parition cannot have a full MST! Missing edges to create full MST./ 64]
+Warning: parition cannot have a full MST! Missing edges to create full MST.
+Total edges removed in this iteration 8276                                      
+New total of edges:  1845
+#####
+
+Total runs:  2 
+
+#####
+Found MST in:  0:00:38.601607
+Start creating plot of MST...
+Created plot of MST in:  0:00:00.464468
+Start creating Distance Matrix...
+Size dataset:  1500
+Created distance matrix in:  0:00:00.205853
+Start creating MST...
+C 0.9051287896680362
+k:  11
+Total edges removed in this iteration 1113991                                   
+New total of edges:  10259
+k:  2
+Warning: parition cannot have a full MST! Missing edges to create full MST./ 64]
+Total edges removed in this iteration 8362                                      
+New total of edges:  1897
+#####
+
+Total runs:  2 
+
+#####
+Found MST in:  0:00:28.606856
+Start creating plot of MST...
+Created plot of MST in:  0:00:00.335409
+Start creating Distance Matrix...
+Size dataset:  1500
+Created distance matrix in:  0:00:00.210972
+Start creating MST...
+C 0.9051287896680362
+k:  11
+Total edges removed in this iteration 1114246                                   
+New total of edges:  10004
+k:  2
+Warning: parition cannot have a full MST! Missing edges to create full MST./ 64]
+Warning: parition cannot have a full MST! Missing edges to create full MST.
+Warning: parition cannot have a full MST! Missing edges to create full MST./ 64]
+Warning: parition cannot have a full MST! Missing edges to create full MST./ 64]
+Total edges removed in this iteration 8178                                      
+New total of edges:  1826
+#####
+
+Total runs:  2 
+
+#####
+Found MST in:  0:00:33.880383
+Start creating plot of MST...
+Created plot of MST in:  0:00:00.440989
+Start creating Distance Matrix...
+Size dataset:  1500
+Created distance matrix in:  0:00:00.208546
+Start creating MST...
+C 0.9051287896680362
+k:  11
+Total edges removed in this iteration 1113962                                   
+New total of edges:  10288
+k:  2
+Warning: parition cannot have a full MST! Missing edges to create full MST./ 64]
+Warning: parition cannot have a full MST! Missing edges to create full MST./ 64]
+Warning: parition cannot have a full MST! Missing edges to create full MST.
+Total edges removed in this iteration 8442                                      
+New total of edges:  1846
+#####
+
+Total runs:  2 
+
+#####
+Found MST in:  0:00:31.838773
+Start creating plot of MST...
+Created plot of MST in:  0:00:00.448528
+Start creating Distance Matrix...
+Size dataset:  1500
+Created distance matrix in:  0:00:00.218466
+Start creating MST...
+C 0.9051287896680362
+k:  11
+Total edges removed in this iteration 1113658                                   
+New total of edges:  10592
+k:  2
+Warning: parition cannot have a full MST! Missing edges to create full MST./ 64]
+Total edges removed in this iteration 8704                                      
+New total of edges:  1888
+#####
+
+Total runs:  2 
+
+#####
+Found MST in:  0:00:32.514209
+Start creating plot of MST...
+Created plot of MST in:  0:00:00.361122
+Start creating Distance Matrix...
+Size dataset:  1500
+Created distance matrix in:  0:00:02.794303
+Start creating MST...
+C 0.9051287896680362
+k:  11
+Total edges removed in this iteration 1113740                                   
+New total of edges:  10510
+k:  2
+Warning: parition cannot have a full MST! Missing edges to create full MST./ 64]
+Total edges removed in this iteration 8640                                      
+New total of edges:  1870
+#####
+
+Total runs:  2 
+
+#####
+Found MST in:  0:00:45.405312
+Start creating plot of MST...
+Created plot of MST in:  0:00:00.586906
+Start creating Distance Matrix...
+Size dataset:  1500
+Created distance matrix in:  0:00:02.972783
+Start creating MST...
+C 0.9051287896680362
+k:  11
+Total edges removed in this iteration 1113879                                   
+New total of edges:  10371
+k:  2
+Warning: parition cannot have a full MST! Missing edges to create full MST./ 64]
+Warning: parition cannot have a full MST! Missing edges to create full MST.
+Total edges removed in this iteration 8489                                      
+New total of edges:  1882
+#####
+
+Total runs:  2 
+
+#####
+Found MST in:  0:00:42.435332
+Start creating plot of MST...
+Created plot of MST in:  0:00:00.579115
+Read dataset:  datasets/CA-AstroPh.txt
+Traceback (most recent call last):
+  File "/Users/shivammaheshwari/Documents/Code/MSTforDenseGraphs/PysparkMSTfordensegraphsfast.py", line 430, in <module>
+    main()
+  File "/Users/shivammaheshwari/Documents/Code/MSTforDenseGraphs/PysparkMSTfordensegraphsfast.py", line 388, in main
+    V, size, E = data_reader.read_data_set_from_txtfile(loc)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/shivammaheshwari/Documents/Code/MSTforDenseGraphs/DataReader.py", line 51, in read_data_set_from_txtfile
+    with open(file_location) as file:
+         ^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: 'datasets/CA-AstroPh.txt'
+(base) shivammaheshwari@Shivams-MacBook-Air MSTforDenseGraphs % 

@@ -1,0 +1,24 @@
+{
+  "dataset": "TwoCircles",
+  "n": 1500,
+  "epsilon": 0.5,
+  "rounds": 1,
+  "y_threshold": 58095,
+  "per_round_m": [
+    1124250
+  ],
+  "per_round_x": [
+    20
+  ],
+  "per_round_max_bucket": [
+    56220
+  ],
+  "time_sec_algorithm": 3.9061161249992438,
+  "time_sec_wall": 8.795073749992298,
+  "mst_edges": 1499,
+  "ari": 1.0,
+  "space_usage_mb": {
+    "current_mb": 1.181051254272461,
+    "peak_mb": 159.7868127822876
+  }
+}

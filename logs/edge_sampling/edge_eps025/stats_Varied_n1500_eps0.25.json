@@ -1,0 +1,30 @@
+{
+  "dataset": "Varied",
+  "n": 1500,
+  "epsilon": 0.25,
+  "rounds": 3,
+  "y_threshold": 9335,
+  "per_round_m": [
+    1124250,
+    181379,
+    29978
+  ],
+  "per_round_x": [
+    121,
+    20,
+    4
+  ],
+  "per_round_max_bucket": [
+    9318,
+    9197,
+    7543
+  ],
+  "time_sec_algorithm": 7.643869874998927,
+  "time_sec_wall": 10.99098208299256,
+  "mst_edges": 1499,
+  "ari": 1.4269788030111522e-05,
+  "space_usage_mb": {
+    "current_mb": 0.3814983367919922,
+    "peak_mb": 184.42278385162354
+  }
+}

@@ -1,0 +1,30 @@
+{
+  "dataset": "Random",
+  "n": 1500,
+  "epsilon": 0.25,
+  "rounds": 3,
+  "y_threshold": 9335,
+  "per_round_m": [
+    1124250,
+    181379,
+    29980
+  ],
+  "per_round_x": [
+    121,
+    20,
+    4
+  ],
+  "per_round_max_bucket": [
+    9318,
+    9221,
+    7602
+  ],
+  "time_sec_algorithm": 7.073542791011278,
+  "time_sec_wall": 10.419675540993921,
+  "mst_edges": 1499,
+  "ari": null,
+  "space_usage_mb": {
+    "current_mb": 0.3789987564086914,
+    "peak_mb": 184.43464279174805
+  }
+}
