@@ -1,10 +1,11 @@
+# max_coverage.py (IMPROVED)
 from __future__ import annotations
 
 import math
 import time
 from dataclasses import dataclass
 from itertools import combinations
-from typing import List, Optional, Sequence, Tuple
+from typing import Iterable, List, Optional, Sequence, Tuple, Union
 
 try:
     from pyspark import SparkConf, SparkContext  # type: ignore
@@ -33,20 +34,49 @@ def marginal_gain(set_mask: Mask, covered: Mask) -> int:
     return popcount(set_mask & ~covered)
 
 
+def approx_py_object_size_mb(obj) -> float:
+    """
+    Crude Python-side size estimate. Does NOT reflect Spark executor JVM memory.
+    Useful for reporting the size of the driver-side structures (bitmasks list, etc.).
+    """
+    import sys
+
+    seen = set()
+    stack = [obj]
+    total = 0
+    while stack:
+        x = stack.pop()
+        oid = id(x)
+        if oid in seen:
+            continue
+        seen.add(oid)
+        total += sys.getsizeof(x)
+        if isinstance(x, dict):
+            stack.extend(list(x.keys()))
+            stack.extend(list(x.values()))
+        elif isinstance(x, (list, tuple, set, frozenset)):
+            stack.extend(list(x))
+    return total / (1024 * 1024)
+
+
 # -----------------------------
 # Instance generation (points -> balls -> bitmasks)
 # -----------------------------
 def build_ball_sets_bitmask(
     X,
     m: int,
-    radius: float,
+    radius: Union[float, Sequence[float]],
     *,
     seed: int = 0,
     centers_from_points: bool = True,
 ) -> List[Mask]:
     """
     Build m candidate sets ("balls") that cover points within radius.
+    - radius can be a float (identical radii) or a sequence of length m (varying radii).
     Returns List[int] where each int is a bitmask of covered point indices.
+
+    NOTE: coverage is with respect to points in X. If you want actual area-coverage,
+    you'd need a continuous area model; this matches the lecture's discrete set cover style.
     """
     import numpy as np
 
@@ -61,10 +91,16 @@ def build_ball_sets_bitmask(
         maxs = X.max(axis=0)
         centers = rng.uniform(mins, maxs, size=(m, X.shape[1]))
 
-    r2 = radius * radius
-    sets: List[int] = []
+    if isinstance(radius, (list, tuple, np.ndarray)):
+        if len(radius) != m:
+            raise ValueError("If radius is a sequence, it must have length m.")
+        radii = np.asarray(radius, dtype=float)
+    else:
+        radii = np.full(m, float(radius), dtype=float)
 
-    for c in centers:
+    sets: List[int] = []
+    for c, r in zip(centers, radii):
+        r2 = float(r) * float(r)
         d2 = ((X - c) ** 2).sum(axis=1)
         idx = np.where(d2 <= r2)[0]
         mask = 0
@@ -75,25 +111,34 @@ def build_ball_sets_bitmask(
     return sets
 
 
+def sample_radii(m: int, *, mode: str, r: float, r_min: float, r_max: float, seed: int) -> List[float]:
+    """
+    Convenience helper:
+    - mode="fixed": all radii are r
+    - mode="uniform": radii ~ Uniform(r_min, r_max)
+    """
+    import numpy as np
+
+    rng = np.random.default_rng(seed)
+    if mode == "fixed":
+        return [float(r)] * m
+    if mode == "uniform":
+        return rng.uniform(r_min, r_max, size=m).astype(float).tolist()
+    raise ValueError("mode must be one of: fixed, uniform")
+
+
 # -----------------------------
-# Stats (optional, not required by runner)
+# Stats
 # -----------------------------
 @dataclass
-class CoverageStats:
-    algo: str
-    dataset: str
-    n_points: int
-    m_sets: int
-    k: int
-    epsilon: float
-    radius: float
-    num_guesses: int
-    rounds: int
-    total_time_sec: float
+class AlgoRunDiagnostics:
+    rounds_logical: int
+    time_sec: float
     f_value: int
     chosen_count: int
-    opt_value: Optional[int] = None
-    ratio_to_opt: Optional[float] = None
+    # Spark-level proxies (collected by runner via job groups; kept here for convenience)
+    spark_jobs: Optional[int] = None
+    spark_stages: Optional[int] = None
 
 
 # -----------------------------
@@ -107,10 +152,12 @@ def greedy_max_coverage(
     master: str = "local[*]",
     app_name: str = "MaxCoverage_Greedy",
     stop_spark: bool = True,
-) -> Tuple[List[int], Mask, int, int, float]:
+) -> Tuple[List[int], Mask, AlgoRunDiagnostics]:
     """
-    Returns (chosen_indices, covered_mask, f(S), rounds, time_sec)
-    rounds ~= number of global passes (about chosen_count)
+    Classic greedy: pick set with max marginal gain for k iterations.
+
+    Returns (chosen_indices, covered_mask, diagnostics).
+    rounds_logical ~= number of greedy passes
     """
     t0 = time.perf_counter()
     rounds = 0
@@ -175,7 +222,13 @@ def greedy_max_coverage(
     if _HAS_PYSPARK and stop_spark and created_sc and sc is not None:
         sc.stop()
 
-    return chosen, covered, f_value(covered), rounds, (t1 - t0)
+    diag = AlgoRunDiagnostics(
+        rounds_logical=rounds,
+        time_sec=(t1 - t0),
+        f_value=f_value(covered),
+        chosen_count=len(chosen),
+    )
+    return chosen, covered, diag
 
 
 # -----------------------------
@@ -190,7 +243,7 @@ def threshold_max_coverage_lecture7(
     master: str = "local[*]",
     app_name: str = "MaxCoverage_Threshold",
     stop_spark: bool = True,
-) -> Tuple[List[int], Mask, int, int, float, int]:
+) -> Tuple[List[int], Mask, AlgoRunDiagnostics, int]:
     """
     Implements Lecture 7 structure:
 
@@ -201,16 +254,13 @@ def threshold_max_coverage_lecture7(
          build S^j up to k picks, only adding elements with marginal gain >= tau_j
        return best over j
 
-    Returns (chosen_best, covered_best, f_best, rounds, time_sec, num_guesses)
-    where num_guesses = y+1
+    Returns (chosen_best, covered_best, diagnostics, num_guesses)
     """
     t0 = time.perf_counter()
     rounds = 0
 
-    # best singleton value f(e)
     f_e = max((popcount(sm) for sm in sets), default=0)
 
-    # y = ceil(log k / log(1+eps))  (Lecture 7)
     if k <= 1:
         y = 0
     else:
@@ -291,7 +341,13 @@ def threshold_max_coverage_lecture7(
     if _HAS_PYSPARK and stop_spark and created_sc and sc is not None:
         sc.stop()
 
-    return best_chosen, best_cov, best_val, rounds, (t1 - t0), num_guesses
+    diag = AlgoRunDiagnostics(
+        rounds_logical=rounds,
+        time_sec=(t1 - t0),
+        f_value=best_val,
+        chosen_count=len(best_chosen),
+    )
+    return best_chosen, best_cov, diag, num_guesses
 
 
 # -----------------------------
