@@ -1,11 +1,11 @@
-# max_coverage.py (IMPROVED)
+# max_coverage.py (WITH VIS + OPT SOLUTION SUPPORT)
 from __future__ import annotations
 
 import math
 import time
 from dataclasses import dataclass
 from itertools import combinations
-from typing import Iterable, List, Optional, Sequence, Tuple, Union
+from typing import List, Optional, Sequence, Tuple, Union
 
 try:
     from pyspark import SparkConf, SparkContext  # type: ignore
@@ -30,15 +30,10 @@ def f_value(covered: Mask) -> int:
 
 
 def marginal_gain(set_mask: Mask, covered: Mask) -> int:
-    # new points added by set_mask beyond covered
     return popcount(set_mask & ~covered)
 
 
 def approx_py_object_size_mb(obj) -> float:
-    """
-    Crude Python-side size estimate. Does NOT reflect Spark executor JVM memory.
-    Useful for reporting the size of the driver-side structures (bitmasks list, etc.).
-    """
     import sys
 
     seen = set()
@@ -70,13 +65,28 @@ def build_ball_sets_bitmask(
     seed: int = 0,
     centers_from_points: bool = True,
 ) -> List[Mask]:
-    """
-    Build m candidate sets ("balls") that cover points within radius.
-    - radius can be a float (identical radii) or a sequence of length m (varying radii).
-    Returns List[int] where each int is a bitmask of covered point indices.
+    # Backward-compatible wrapper: only masks.
+    masks, _, _ = build_ball_sets_bitmask_with_meta(
+        X, m=m, radius=radius, seed=seed, centers_from_points=centers_from_points
+    )
+    return masks
 
-    NOTE: coverage is with respect to points in X. If you want actual area-coverage,
-    you'd need a continuous area model; this matches the lecture's discrete set cover style.
+
+def build_ball_sets_bitmask_with_meta(
+    X,
+    m: int,
+    radius: Union[float, Sequence[float]],
+    *,
+    seed: int = 0,
+    centers_from_points: bool = True,
+):
+    """
+    Build m candidate sets ("balls") covering points within radius.
+
+    Returns:
+      - masks: List[int] bitmask per ball (covered points)
+      - centers: (m,d) ndarray of centers
+      - radii: (m,) ndarray radii
     """
     import numpy as np
 
@@ -98,7 +108,7 @@ def build_ball_sets_bitmask(
     else:
         radii = np.full(m, float(radius), dtype=float)
 
-    sets: List[int] = []
+    masks: List[int] = []
     for c, r in zip(centers, radii):
         r2 = float(r) * float(r)
         d2 = ((X - c) ** 2).sum(axis=1)
@@ -106,17 +116,12 @@ def build_ball_sets_bitmask(
         mask = 0
         for p in idx.tolist():
             mask |= (1 << p)
-        sets.append(mask)
+        masks.append(mask)
 
-    return sets
+    return masks, centers, radii
 
 
 def sample_radii(m: int, *, mode: str, r: float, r_min: float, r_max: float, seed: int) -> List[float]:
-    """
-    Convenience helper:
-    - mode="fixed": all radii are r
-    - mode="uniform": radii ~ Uniform(r_min, r_max)
-    """
     import numpy as np
 
     rng = np.random.default_rng(seed)
@@ -136,7 +141,6 @@ class AlgoRunDiagnostics:
     time_sec: float
     f_value: int
     chosen_count: int
-    # Spark-level proxies (collected by runner via job groups; kept here for convenience)
     spark_jobs: Optional[int] = None
     spark_stages: Optional[int] = None
 
@@ -153,12 +157,6 @@ def greedy_max_coverage(
     app_name: str = "MaxCoverage_Greedy",
     stop_spark: bool = True,
 ) -> Tuple[List[int], Mask, AlgoRunDiagnostics]:
-    """
-    Classic greedy: pick set with max marginal gain for k iterations.
-
-    Returns (chosen_indices, covered_mask, diagnostics).
-    rounds_logical ~= number of greedy passes
-    """
     t0 = time.perf_counter()
     rounds = 0
 
@@ -244,18 +242,6 @@ def threshold_max_coverage_lecture7(
     app_name: str = "MaxCoverage_Threshold",
     stop_spark: bool = True,
 ) -> Tuple[List[int], Mask, AlgoRunDiagnostics, int]:
-    """
-    Implements Lecture 7 structure:
-
-    1) f_e = max singleton value
-    2) y = ceil( log(k) / log(1+eps) )
-    3) For each guess j=0..y:
-         tau_j = ((1+eps)^j * f_e) / (2k)
-         build S^j up to k picks, only adding elements with marginal gain >= tau_j
-       return best over j
-
-    Returns (chosen_best, covered_best, diagnostics, num_guesses)
-    """
     t0 = time.perf_counter()
     rounds = 0
 
@@ -361,3 +347,23 @@ def brute_force_optimum(sets: Sequence[Mask], k: int) -> int:
             cov |= sets[idx]
         best = max(best, popcount(cov))
     return best
+
+
+def brute_force_optimum_solution(sets: Sequence[Mask], k: int) -> Tuple[int, List[int], Mask]:
+    """
+    Returns (opt_value, opt_indices, opt_covered_mask).
+    Only feasible for small m,k.
+    """
+    best = -1
+    best_comb: Tuple[int, ...] = tuple()
+    best_cov: Mask = 0
+    for comb in combinations(range(len(sets)), k):
+        cov = 0
+        for idx in comb:
+            cov |= sets[idx]
+        val = popcount(cov)
+        if val > best:
+            best = val
+            best_comb = comb
+            best_cov = cov
+    return best, list(best_comb), best_cov
