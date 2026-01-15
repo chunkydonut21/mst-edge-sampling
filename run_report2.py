@@ -71,7 +71,7 @@ def run_with_job_group(sc: Optional[SparkContext], group_id: str, desc: str, fn)
         return fn()
     finally:
         if sc is not None:
-            sc.clearJobGroup()
+            sc.setJobGroup(None, None)
 
 
 def main():
@@ -298,7 +298,6 @@ def main():
                 if args.m_opt > 25 or args.k_opt > 6:
                     raise ValueError("--m-opt must be <=25 and --k-opt must be <=6 for brute force OPT.")
 
-                sets_opt, inst_meta_opt
                 sets_opt, inst_meta_opt = build_instance(X, args.m_opt)
                 py_sets_opt_size_mb = approx_py_object_size_mb(sets_opt)
 

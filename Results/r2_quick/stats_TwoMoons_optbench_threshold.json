@@ -1,0 +1,27 @@
+{
+  "problem": "maximum_coverage_points",
+  "algo": "threshold_lecture7",
+  "regime": "opt_benchmark",
+  "dataset": "TwoMoons",
+  "n_points": 1500,
+  "k": 6,
+  "epsilon": 0.25,
+  "num_guesses": 10,
+  "m_sets": 25,
+  "radii_mode": "fixed",
+  "radius_fixed": 0.7,
+  "radius_min": 0.4,
+  "radius_max": 1.0,
+  "rounds_logical": 53,
+  "spark_jobs": 53,
+  "spark_stages": 53,
+  "f_value": 1494,
+  "chosen_count": 6,
+  "python_space_usage_mb": {
+    "sets_list_estimate_mb": 0.00563812255859375,
+    "tracemalloc_current_mb": 0.1530170440673828,
+    "tracemalloc_peak_mb": 0.3464193344116211
+  },
+  "opt_value": 1494,
+  "ratio_to_opt": 1.0
+}

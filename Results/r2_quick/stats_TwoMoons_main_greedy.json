@@ -1,0 +1,27 @@
+{
+  "problem": "maximum_coverage_points",
+  "algo": "greedy",
+  "regime": "main",
+  "dataset": "TwoMoons",
+  "n_points": 1500,
+  "k": 20,
+  "m_sets": 200,
+  "radii_mode": "fixed",
+  "radius_fixed": 0.7,
+  "radius_min": 0.4,
+  "radius_max": 1.0,
+  "rounds_logical": 8,
+  "spark_jobs": 8,
+  "spark_stages": 8,
+  "f_value": 1500,
+  "chosen_count": 7,
+  "time_sec_algorithm": 4.059538233999774,
+  "time_sec_wall": 4.068143579999742,
+  "python_space_usage_mb": {
+    "sets_list_estimate_mb": 0.04430389404296875,
+    "tracemalloc_current_mb": 0.6998882293701172,
+    "tracemalloc_peak_mb": 0.8326196670532227
+  },
+  "opt_value": null,
+  "ratio_to_opt": null
+}
